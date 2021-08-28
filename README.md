@@ -1,4 +1,5 @@
 ## 박멸게임 (Exterminate!)
+<img src="https://user-images.githubusercontent.com/70834187/131213604-c3ac2d41-ad9c-4092-93e5-d2260e9f4c53.png"  width="75%" height="75%" />
 굶주린 고양이와 함께하는 먹이 소탕 대모험<br>
 화면 터치를 이용한 슈팅게임입니다.
 
