@@ -1,5 +1,6 @@
-## 박멸게임 (Extermination-Game)
-application for Android
+## 박멸게임 (Exterminate!)
+굶주린 고양이와 함께하는 먹이 소탕 대모험
+화면 터치를 이용한 슈팅게임입니다.
 
 
 ## Class Diagram
