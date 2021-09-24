@@ -1,4 +1,4 @@
-package kr.ac.kpu.spaceinvadersactivity;
+package kr.ac.kpu.extermination_game;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,7 +12,7 @@ public class Invader {
 
     Random generator = new Random();
 
-    // spaceinvaderView에서 비트맵 수정가능하게 하기위해 public으로 설정
+    // spaceinvaderView에서 비트맵 수정 가능하게 하기 위해 public으로 설정
     public Bitmap bitmap1;
     public Bitmap bitmap2;
 
@@ -39,7 +39,7 @@ public class Invader {
 
     // gamelevel이 4일 경우 사용할 설정 (invader의 생명력)
     int health = 5;
-    // gamelevel이 4일 경우 takeAim함수에 변화를 주기위하여 만든 전역 변수
+    // gamelevel이 4일 경우 takeAim 함수에 변화를 주기 위하여 만든 전역 변수
     int gl = 1;
 
     // 생성자에 gamelevel 매개변수 추가 (2019.01)
@@ -81,7 +81,7 @@ public class Invader {
         } else {
             bitmap1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.invader7);
             bitmap2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.invader8);
-            gl = gamelevel;  // gamelevel이 4일 경우 takeAim함수에 변화를 주기위하여 만든 전역 변수
+            gl = gamelevel;  // gamelevel이 4일 경우 takeAim 함수에 변화를 주기 위하여 만든 전역 변수
         }
 
         // bitmap 크기 조절
@@ -171,7 +171,7 @@ public class Invader {
     public boolean takeAim(float playerShipX, float playerShipLength) {
         int randomNumber = -1;
 
-        // invader가 플레이어와 가까워 졌을경우
+        // invader가 플레이어와 가까워 졌을 경우
         if ((playerShipX + playerShipLength > x &&
                 playerShipX + playerShipLength < x + length) || (playerShipX > x && playerShipX < x + length)) {
 
@@ -183,9 +183,9 @@ public class Invader {
 
         }
 
-        // invader가 플레이어와 가깝지 않을경우
+        // invader가 플레이어와 가깝지 않을 경우
         if (gl == 4) randomNumber = generator.nextInt(20);  //gamelevel이 4일 경우
-        else randomNumber = generator.nextInt(1000);  //gamelevel이 1~3일경우
+        else randomNumber = generator.nextInt(1000);  //gamelevel이 1~3일 경우
 
         if (randomNumber == 0) {
             return true;

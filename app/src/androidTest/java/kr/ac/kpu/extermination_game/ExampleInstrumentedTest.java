@@ -1,4 +1,4 @@
-package kr.ac.kpu.spaceinvadersactivity;
+package kr.ac.kpu.extermination_game;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("kr.ac.kpu.spaceinvadersactivity", appContext.getPackageName());
+        assertEquals("kr.ac.kpu.extermination_game", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package kr.ac.kpu.spaceinvadersactivity;
+package kr.ac.kpu.extermination_game;
 
 import android.graphics.RectF;
 
@@ -9,7 +9,7 @@ public class Bullet {
 
     private RectF rect;
 
-    // ÃÑ¾Ë ¹æÇâ
+    // ì´ì•Œ ë°©í–¥
     public final int UP = 0;
     public final int DOWN = 1;
 
@@ -59,20 +59,20 @@ public class Bullet {
             return true;
         }
 
-        // ÃÑ¾ËÀÌ ÀÌ¹Ì È°¼ºÈ­ µÊ
+        // ì´ì•Œì´ ì´ë¯¸ í™œì„±í™” ë¨
         return false;
     }
 
     public void update(long fps){
 
-        // ÃÑ¾Ë ÀÌµ¿¹æÇâ
+        // ì´ì•Œ ì´ë™ë°©í–¥
         if(heading == UP){
             y = y - speed / fps;
         }else{
             y = y + speed / fps;
         }
 
-        // rect °»½Å
+        // rect ê°±ì‹ 
         rect.left = x;
         rect.right = x + width;
         rect.top = y;

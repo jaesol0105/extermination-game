@@ -1,4 +1,4 @@
-package kr.ac.kpu.spaceinvadersactivity;
+package kr.ac.kpu.extermination_game;
 
 import org.junit.Test;
 

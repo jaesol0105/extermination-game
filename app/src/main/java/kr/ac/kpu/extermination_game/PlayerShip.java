@@ -1,4 +1,4 @@
-package kr.ac.kpu.spaceinvadersactivity;
+package kr.ac.kpu.extermination_game;
 
 
 import android.content.Context;
@@ -9,34 +9,34 @@ import android.graphics.RectF;
 public class PlayerShip {
     RectF rect;
 
-    // ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ¸¦ ³ªÅ¸³¾ bitmap
+    // í”Œë ˆì´ì–´ ìºë¦­í„°ë¥¼ ë‚˜íƒ€ë‚¼ bitmap
     private Bitmap bitmap;
 
-    // ÇÃ·¹ÀÌ¾îÀÇ Å©±â
+    // í”Œë ˆì´ì–´ì˜ í¬ê¸°
     private float length;
     private float height;
 
-    // X´Â ÇÃ·¹ÀÌ¾îÀÇ °¡Àå ¿ŞÂÊ ÁÂÇ¥
+    // XëŠ” í”Œë ˆì´ì–´ì˜ ê°€ì¥ ì™¼ìª½ ì¢Œí‘œ
     private float x;
 
-    // Y´Â ÇÃ·¹ÀÌ¾îÀÇ »ó´Ü ÁÂÇ¥
+    // YëŠ” í”Œë ˆì´ì–´ì˜ ìƒë‹¨ ì¢Œí‘œ
     private float y;
 
-    // ÇÃ·¹ÀÌ¾î°¡ 1ÃÊ´ç ÀÌµ¿ÇÏ´Â ÇÈ¼¿ ¼Óµµ
+    // í”Œë ˆì´ì–´ê°€ 1ì´ˆë‹¹ ì´ë™í•˜ëŠ” í”½ì…€ ì†ë„
     private float shipSpeed;
 
-    // ÇÃ·¹ÀÌ¾î°¡ ¿òÁ÷ÀÌ´Â ¹æÇâ º¯¼ö
+    // í”Œë ˆì´ì–´ê°€ ì›€ì§ì´ëŠ” ë°©í–¥ ë³€ìˆ˜
     public final int STOPPED = 0;
     public final int LEFT = 1;
     public final int RIGHT = 2;
 
-    // ¿òÁ÷ÀÌ°í ÀÖ´Â ¹æÇâ
+    // ì›€ì§ì´ê³  ìˆëŠ” ë°©í–¥
     private int shipMoving = STOPPED;
 
-    //ÇÃ·¹ÀÌ¾îÀÇ È­¸é ÀÌÅ»À» ¹æÁöÇÏ±âÀ§ÇÑ Àü¿ª º¯¼ö
+    //í”Œë ˆì´ì–´ì˜ í™”ë©´ ì´íƒˆì„ ë°©ì§€í•˜ê¸° ìœ„í•œ ì „ì—­ ë³€ìˆ˜
     private int scrX = 2000;
 
-    // »ı¼ºÀÚ ¸Ş¼Òµå
+    // ìƒì„±ì ë©”ì†Œë“œ
     public PlayerShip(Context context, int screenX, int screenY){
 
         // Initialize a blank RectF
@@ -45,22 +45,22 @@ public class PlayerShip {
         length = screenX/8;
         height = screenY/8;
 
-        // ÇÃ·¹ÀÌ¾îÀÇ ½ÃÀÛ À§Ä¡
+        // í”Œë ˆì´ì–´ì˜ ì‹œì‘ ìœ„ì¹˜
         x = screenX / 2;
         y = screenY - 20;
 
         scrX = screenX;
 
-        // bitmap ÃÊ±âÈ­
+        // bitmap ì´ˆê¸°í™”
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.playership);
 
-        // bitmap Å©±â Á¶Àı
+        // bitmap í¬ê¸° ì¡°ì ˆ
         bitmap = Bitmap.createScaledBitmap(bitmap,
                 (int) (length),
                 (int) (height),
                 false);
 
-        // ÇÃ·¹ÀÌ¾î ¼Óµµ ¼³Á¤
+        // í”Œë ˆì´ì–´ ì†ë„ ì„¤ì •
         shipSpeed = 350;
     }
 
@@ -80,13 +80,13 @@ public class PlayerShip {
         return length;
     }
 
-    // ÇÃ·¹ÀÌ¾î°¡ ¿òÁ÷ÀÌ´Â ¹æÇâ º¯¼ö¸¦ ¼³Á¤ÇÏ´Â ¸Ş¼Òµå
+    // í”Œë ˆì´ì–´ê°€ ì›€ì§ì´ëŠ” ë°©í–¥ ë³€ìˆ˜ë¥¼ ì„¤ì •í•˜ëŠ” ë©”ì†Œë“œ
     public void setMovementState(int state){
         shipMoving = state;
     }
 
-    // SpaceInvadersViewÀÇ update¿¡¼­ È£Ãâ.
-    // ÇÃ·¹ÀÌ¾î°¡ ¿òÁ÷¿©¾ß ÇÏ´ÂÁö °áÁ¤ÇÏ°í, ÁÂÇ¥¸¦ º¯°æÇÑ´Ù
+    // SpaceInvadersViewì˜ updateì—ì„œ í˜¸ì¶œ.
+    // í”Œë ˆì´ì–´ê°€ ì›€ì§ì—¬ì•¼ í•˜ëŠ”ì§€ ê²°ì •í•˜ê³ , ì¢Œí‘œë¥¼ ë³€ê²½í•œë‹¤
     public void update(long fps){
         if(shipMoving == LEFT && x > 0){
             x = x - shipSpeed / fps;
@@ -96,7 +96,7 @@ public class PlayerShip {
             x = x + shipSpeed / fps;
         }
 
-        // hit ÆÇÁ¤ °¨Áö¸¦ À§ÇØ »ç¿ëµÇ´Â rect °»½Å
+        // hit íŒì • ê°ì§€ë¥¼ ìœ„í•´ ì‚¬ìš©ë˜ëŠ” rect ê°±ì‹ 
         rect.top = y;
         rect.bottom = y + height;
         rect.left = x;

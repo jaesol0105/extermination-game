@@ -1,4 +1,4 @@
-package kr.ac.kpu.spaceinvadersactivity;
+package kr.ac.kpu.extermination_game;
 
 import android.graphics.RectF;
 
@@ -14,7 +14,7 @@ public class DefenceBrick {
 
         isVisible =  true;
 
-        // ÃÑ¾ËÀÌ paddingÀ» Åë°ú ÇÏ´Â Çö»ó -> 0À¸·Î ¼³Á¤ÇÏ¿© ÇØ°á
+        // ì´ì•Œì´ paddingì„ í†µê³¼í•˜ëŠ” í˜„ìƒ -> 0ìœ¼ë¡œ ì„¤ì •í•˜ì—¬ í•´ê²°
         int brickPadding =  1;
 
         int shelterPadding = screenX /  9;

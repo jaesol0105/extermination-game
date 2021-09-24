@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/kr/ac/kpu/extermination_game/Bullet.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/kr/ac/kpu/extermination_game/DefenceBrick.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/kr/ac/kpu/extermination_game/MainActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/kr/ac/kpu/extermination_game/PlayerShip.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/kr/ac/kpu/extermination_game/SpaceInvadersView.java" charset="UTF-8" />
+  </component>
+</project>

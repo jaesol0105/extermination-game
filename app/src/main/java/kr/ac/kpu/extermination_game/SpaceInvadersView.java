@@ -1,4 +1,4 @@
-package kr.ac.kpu.spaceinvadersactivity;
+package kr.ac.kpu.extermination_game;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
@@ -149,7 +149,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     }
 
     private void prepareLevel() {
-        // 모든 게임 objects를 초기화 하는 함수
+        // 모든 게임 objects를 초기화하는 함수
 
         // 플레이어 캐릭터
         playerShip = new PlayerShip(context, screenX, screenY);
@@ -201,7 +201,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                 }
             }
         } else if (gamelevel == 2) {
-        } 
+        }
         else if (gamelevel == 4) {
         }
         else {
@@ -279,7 +279,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                 // invader 이동
                 invaders[i].update(fps);
 
-                // invader가 총알을 발사할경우 (takeAim 메소드)
+                // invader가 총알을 발사할 경우 (takeAim 메소드)
                 if (invaders[i].takeAim(playerShip.getX(),
                         playerShip.getLength())) {
 
@@ -292,16 +292,16 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                         // 다음 총알 준비
                         nextBullet++;
 
-                        // invadersBullets 배열의 마지막 까지 도달할경우 인덱스를 0으로 재설정
+                        // invadersBullets 배열의 마지막 까지 도달할 경우 인덱스를 0으로 재설정
                         if (nextBullet == maxInvaderBullets) {
-                            // 만약 이때 총알 0이 활성화 되어 있을경우, shoot 메소드는 false를 반환하기 때문에
+                            // 만약 이때 총알 0이 활성화 되어 있을 경우, shoot 메소드는 false를 반환하기 때문에
                             // 총알 0이 inactive 될때까지 다른 총알이 발사되지 않는다
                             nextBullet = 0;
                         }
                     }
                 }
 
-                // invader가 화면 끝에 닿았을경우 bumped = true
+                // invader가 화면 끝에 닿았을 경우 bumped = true
                 if (invaders[i].getX() > screenX - invaders[i].getLength()
                         || invaders[i].getX() < 0) {
 
@@ -333,7 +333,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             }
 
             // 위협 수준을 상승시킨다
-            // invader가 내려올때마다 위협소리가 점점 빨라짐
+            // invader가 내려올 때마다 위협소리가 점점 빨라짐
             menaceInterval = menaceInterval - 80;
         }
 
@@ -347,24 +347,24 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             bullet.update(fps);
         }
 
-        // 플레이어의 총알이 화면 상단에 부딪혔을경우 총알 비활성화
+        // 플레이어의 총알이 화면 상단에 부딪혔을 경우 총알 비활성화
         if (bullet.getImpactPointY() < 0) {
             bullet.setInactive();
         }
 
-        // invader의 총알이 화면 하단에 부딪혔을경우 총알 비활성화
+        // invader의 총알이 화면 하단에 부딪혔을 경우 총알 비활성화
         for (int i = 0; i < invadersBullets.length; i++) {
             if (invadersBullets[i].getImpactPointY() > screenY) {
                 invadersBullets[i].setInactive();
             }
         }
 
-        // 플레이어의 총알이 invader에 맞았을경우
+        // 플레이어의 총알이 invader에 맞았을 경우
         if (bullet.getStatus()) {
             for (int i = 0; i < numInvaders; i++) {
                 if (invaders[i].getVisibility()) {
                     if (RectF.intersects(bullet.getRect(), invaders[i].getRect())) {
-                        // gamelevel이 4일경우
+                        // gamelevel이 4일 경우
                         if (gamelevel == 4) {
                             bullet.setInactive();
                             invaders[i].health--;
@@ -379,14 +379,14 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                             soundPool.play(invaderExplodeID, 1, 1, 0, 0, 1);
                             score = score + 10;
                         }
-                        // 승리 하였을경우
+                        // 승리하였을 경우
                         if (score == numInvaders * 10) {
                             paused = true;
                             score = 0;
                             lives = 1;
                             maxInvaderBullets = 10 + 10 * gamelevel;
                             gamelevel++;
-                            //gamelevel은 4까지 구현되어있음
+                            //gamelevel은 4까지 구현되어 있음
                             if (gamelevel == 5) gamelevel = 1;
                             prepareLevel();
                         }
@@ -396,7 +396,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
         }
 
 
-        // invader의 총알이 쉘터에 부딪히는경우
+        // invader의 총알이 쉘터에 부딪히는 경우
         for (int i = 0; i < invadersBullets.length; i++) {
             if (invadersBullets[i].getStatus()) {
                 for (int j = 0; j < numBricks; j++) {
@@ -414,7 +414,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
         }
 
 
-        // 플레이어의 총알이 쉘터에 부딪히는경우
+        // 플레이어의 총알이 쉘터에 부딪히는 경우
         if (bullet.getStatus()) {
             for (int i = 0; i < numBricks; i++) {
                 if (bricks[i].getVisibility()) {
@@ -429,7 +429,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
         }
 
 
-        /// invader의 총알이 플레이어에 맞았을경우
+        /// invader의 총알이 플레이어에 맞았을 경우
         for (int i = 0; i < invadersBullets.length; i++) {
             if (invadersBullets[i].getStatus()) {
                 if (RectF.intersects(playerShip.getRect(), invadersBullets[i].getRect())) {
@@ -453,7 +453,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     }
 
     private void draw() {
-        // 그리기 surface가 유효한지 확인 하지 않으면 충돌함
+        // 그리기 surface가 유효한지 확인하지 않으면 충돌함
         if (ourHolder.getSurface().isValid()) {
             // 그래픽을 그리기 전에 캔버스를 잠근다
             canvas = ourHolder.lockCanvas();
@@ -507,11 +507,11 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             paint.setTextSize(40);
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
             canvas.drawText("[" + gamelevel + " 단계]" + "   Score: " + score + "   Lives: " + lives, 10, 50, paint);
-           
+
             // gamelevel에 따른 문구 표기
             paint.setColor(Color.argb(255, 255, 255, 255));
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
-            
+
             if (gamelevel == 1) {
                 canvas.drawText("   무당벌레를 모두 박멸하세요.", 10, 150, paint);
                 paint.setColor(Color.argb(255, 255, 0, 0));
@@ -559,14 +559,14 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
         gameThread.start();
     }
 
-    // SurfaceView 클래스는 onTouchListener를 implements 하기때문에
+    // SurfaceView 클래스는 onTouchListener를 implements 하기 때문에
     // onTouchListener 메소드를 Override하여 화면 터치를 감지하는 기능을 구현하였다.
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
 
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
 
-            // 화면을 터치했을때
+            // 화면을 터치했을 때
             case MotionEvent.ACTION_DOWN:
 
                 paused = false;
@@ -589,7 +589,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                 }
                 break;
 
-            // 손가락을 화면에서 땠을때
+            // 손가락을 화면에서 땠을 때
             case MotionEvent.ACTION_UP:
 
                 if (motionEvent.getY() > screenY - screenY / 10) {

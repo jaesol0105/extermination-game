@@ -1,49 +1,49 @@
-package kr.ac.kpu.spaceinvadersactivity;
+package kr.ac.kpu.extermination_game;
 
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 
-// °ÔÀÓÀÇ ÁøÀÔÁ¡ÀÌ µÇ´Â main activity, °ÔÀÓÀÇ ¼ö¸íÁÖ±â¸¦ ´Ù·é´Ù
-// main activityÀÇ ¸Ş¼ÒµåµéÀº OS¿¡ÀÇÇØ ½ÇÇà
+// ê²Œì„ì˜ ì§„ì…ì ì´ ë˜ëŠ” main activity, ê²Œì„ì˜ ìˆ˜ëª…ì£¼ê¸°ë¥¼ ë‹¤ë£¬ë‹¤
+// main activityì˜ ë©”ì†Œë“œë“¤ì€ OSì— ì˜í•´ ì‹¤í–‰
 public class MainActivity  extends Activity {
 
-    // spaceInvadersView ´Â gameÀÇ view°¡µÈ´Ù.
-    // °ÔÀÓÀÇ ·ÎÁ÷À» ´Ù·ç°í È­¸é ÅÍÄ¡¿¡ ¹İÀÀ
+    // spaceInvadersView ëŠ” gameì˜ viewê°€ëœë‹¤.
+    // ê²Œì„ì˜ ë¡œì§ì„ ë‹¤ë£¨ê³  í™”ë©´ í„°ì¹˜ì— ë°˜ì‘
     SpaceInvadersView spaceInvadersView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super .onCreate(savedInstanceState);
 
-        // È­¸é ¼¼ºÎÁ¤º¸¸¦ °¡Á®¿À±âÀ§ÇÑ Dispaly °´Ã¼
+        // í™”ë©´ ì„¸ë¶€ì •ë³´ë¥¼ ê°€ì ¸ì˜¤ê¸°ìœ„í•œ Dispaly ê°ì²´
         Display display = getWindowManager().getDefaultDisplay();
-        // Point °´Ã¼¿¡ ÇØ»óµµ ¹Ş¾Æ¿À±â
+        // Point ê°ì²´ì— í•´ìƒë„ ë°›ì•„ì˜¤ê¸°
         Point size =  new Point();
         display.getSize(size);
 
-        // gameView¸¦ ÃÊ±âÈ­ÇÏ°í ºä·Î ¼³Á¤
+        // gameViewë¥¼ ì´ˆê¸°í™”í•˜ê³  ë·°ë¡œ ì„¤ì •
         spaceInvadersView =  new SpaceInvadersView(this, size.x, size.y);
         setContentView(spaceInvadersView);
 
     }
 
-    // ÇÃ·¹ÀÌ¾î°¡ °ÔÀÓÀ» ½ÃÀÛÇÒ¶§ ½ÇÇàµÇ´Â ¸Ş¼Òµå
+    // í”Œë ˆì´ì–´ê°€ ê²Œì„ì„ ì‹œì‘í• ë•Œ ì‹¤í–‰ë˜ëŠ” ë©”ì†Œë“œ
     @Override
     protected void onResume() {
         super .onResume();
 
-        // gameView¿¡ resume ¸Ş¼Òµå ½ÇÇàÀ» ¸í·É
+        // gameViewì— resume ë©”ì†Œë“œ ì‹¤í–‰ì„ ëª…ë ¹
         spaceInvadersView.resume();
     }
 
-    // ÇÃ·¹ÀÌ¾î°¡ °ÔÀÓÀ» Á¾·áÇÒ¶§ ½ÇÇàµÇ´Â ¸Ş¼Òµå
+    // í”Œë ˆì´ì–´ê°€ ê²Œì„ì„ ì¢…ë£Œí• ë•Œ ì‹¤í–‰ë˜ëŠ” ë©”ì†Œë“œ
     @Override
     protected void onPause() {
         super .onPause();
 
-        // gameView¿¡ resume pause ¸Ş¼Òµå ½ÇÇàÀ» ¸í·É
+        // gameViewì— resume pause ë©”ì†Œë“œ ì‹¤í–‰ì„ ëª…ë ¹
         spaceInvadersView.pause();
     }
 }
