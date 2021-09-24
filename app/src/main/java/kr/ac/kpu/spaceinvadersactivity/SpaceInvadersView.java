@@ -23,16 +23,16 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
 
     Context context;
 
-    // ¾²·¹µå
+    // ì“°ë ˆë“œ
     private Thread gameThread = null;
 
-    // ±×·¡ÇÈÀ» ±×¸®±â Àü¿¡ surface¸¦ Àá±×´Â SurfaceHolder
+    // ê·¸ë˜í”½ì„ ê·¸ë¦¬ê¸° ì „ì— surfaceë¥¼ ì ê·¸ëŠ” SurfaceHolder
     private SurfaceHolder ourHolder;
 
-    // °ÔÀÓÀÌ ½ÇÇà ÁßÀÎÁö ¿©ºÎ true/false
+    // ê²Œì„ì´ ì‹¤í–‰ ì¤‘ì¸ì§€ ì—¬ë¶€ true/false
     private volatile boolean playing;
 
-    // ½ÃÀÛ½Ã °ÔÀÓÀº pause »óÅÂÀÓ
+    // ì‹œì‘ì‹œ ê²Œì„ì€ pause ìƒíƒœì„
     private boolean paused = true;
 
     // Canvas & Paint
@@ -42,31 +42,31 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     // This variable tracks the game frame rate
     private long fps;
 
-    // fps¸¦ °è»êÇÏ´Âµ¥ »ç¿ëµÇ´Â º¯¼ö
+    // fpsë¥¼ ê³„ì‚°í•˜ëŠ”ë° ì‚¬ìš©ë˜ëŠ” ë³€ìˆ˜
     private long timeThisFrame;
 
-    // È­¸é »çÀÌÁî pixels
+    // í™”ë©´ ì‚¬ì´ì¦ˆ pixels
     private int screenX;
     private int screenY;
 
-    // ÇÃ·¹ÀÌ¾î °´Ã¼
+    // í”Œë ˆì´ì–´ ê°ì²´
     private PlayerShip playerShip;
 
-    // ÇÃ·¹ÀÌ¾î ÃÑ¾Ë °´Ã¼
+    // í”Œë ˆì´ì–´ ì´ì•Œ ê°ì²´
     private Bullet bullet;
 
-    // invader ÃÑ¾Ë °´Ã¼ (ÃÖ´ë 200)
+    // invader ì´ì•Œ ê°ì²´ (ìµœëŒ€ 200)
     private Bullet[] invadersBullets = new Bullet[200];
     private int nextBullet;
     private int maxInvaderBullets = 10;
 
-    // invader °´Ã¼ (ÃÖ´ë 60)
+    // invader ê°ì²´ (ìµœëŒ€ 60)
     Invader[] invaders = new Invader[60];
     int numInvaders = 0;
     int rowInvaders = 0;
     int colInvaders = 0;
 
-    // ½©ÅÍ »ı¼º
+    // ì‰˜í„° ìƒì„±
     private DefenceBrick[] bricks = new DefenceBrick[400];
     private int numBricks;
 
@@ -86,30 +86,30 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     // Lives
     private int lives = 1;
 
-    // À§Çù ¼öÁØ (ÀÛÀ»¼ö·Ï À§Çù¼Ò¸®ÀÇ Àç»ı °£°İÀÌ »¡¶óÁø´Ù)
+    // ìœ„í˜‘ ìˆ˜ì¤€ (ì‘ì„ìˆ˜ë¡ ìœ„í˜‘ì†Œë¦¬ì˜ ì¬ìƒ ê°„ê²©ì´ ë¹¨ë¼ì§„ë‹¤)
     private long menaceInterval = 1000;
-    // ´ÙÀ½¿¡ Àç»ıÇÒ À§Çù¼Ò¸®. boolean Å¸ÀÔÀ¸·Î uh¿Í oh¸¦ ¹ø°¥¾Æ¼­ Ãâ·ÂÇÏ±â À§ÇÔ
+    // ë‹¤ìŒì— ì¬ìƒí•  ìœ„í˜‘ì†Œë¦¬. boolean íƒ€ì…ìœ¼ë¡œ uhì™€ ohë¥¼ ë²ˆê°ˆì•„ì„œ ì¶œë ¥í•˜ê¸° ìœ„í•¨
     private boolean uhOrOh;
-    // À§Çù¼Ò¸®°¡ ¸¶Áö¸·À¸·Î Àç»ıµÈ ½Ã°£
+    // ìœ„í˜‘ì†Œë¦¬ê°€ ë§ˆì§€ë§‰ìœ¼ë¡œ ì¬ìƒëœ ì‹œê°„
     private long lastMenaceTime = System.currentTimeMillis();
 
-    // ÃÊ±âÈ­ ÇÒ ¶§ (new()) ¾Æ·¡ÀÇ »ı¼ºÀÚ ¸Ş¼Òµå¸¦ ½ÇÇà
+    // ì´ˆê¸°í™” í•  ë•Œ (new()) ì•„ë˜ì˜ ìƒì„±ì ë©”ì†Œë“œë¥¼ ì‹¤í–‰
     public SpaceInvadersView(Context context, int x, int y) {
 
-        // ºÎ¸ğ Å¬·¡½ºÀÎ SurfaceView¸¦ »ç¿ëÇÏ¿© °³Ã¼¸¦ ¼³Á¤ÇÑ´Ù.
+        // ë¶€ëª¨ í´ë˜ìŠ¤ì¸ SurfaceViewë¥¼ ì‚¬ìš©í•˜ì—¬ ê°œì²´ë¥¼ ì„¤ì •í•œë‹¤.
         super(context);
 
-        // ´Ù¸¥ ¸Ş¼Òµå¿¡¼­ »ç¿ëÇÒ ¼ö ÀÖµµ·Ï Àü¿ªÀûÀ¸·Î »ç¿ë °¡´ÉÇÑ context »çº»À» ¸¸µç´Ù
+        // ë‹¤ë¥¸ ë©”ì†Œë“œì—ì„œ ì‚¬ìš©í•  ìˆ˜ ìˆë„ë¡ ì „ì—­ì ìœ¼ë¡œ ì‚¬ìš© ê°€ëŠ¥í•œ context ì‚¬ë³¸ì„ ë§Œë“ ë‹¤
         this.context = context;
 
-        // ourHolder¿Í paint °´Ã¼ ÃÊ±âÈ­
+        // ourHolderì™€ paint ê°ì²´ ì´ˆê¸°í™”
         ourHolder = getHolder();
         paint = new Paint();
 
         screenX = x;
         screenY = y;
 
-        // »ç¿îµå Ç®
+        // ì‚¬ìš´ë“œ í’€
         // This SoundPool is deprecated but don't worry
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 
@@ -149,23 +149,23 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     }
 
     private void prepareLevel() {
-        // ¸ğµç °ÔÀÓ objects¸¦ ÃÊ±âÈ­ ÇÏ´Â ÇÔ¼ö
+        // ëª¨ë“  ê²Œì„ objectsë¥¼ ì´ˆê¸°í™” í•˜ëŠ” í•¨ìˆ˜
 
-        // ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ
+        // í”Œë ˆì´ì–´ ìºë¦­í„°
         playerShip = new PlayerShip(context, screenX, screenY);
 
-        // ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍÀÇ ÃÑ¾Ë
+        // í”Œë ˆì´ì–´ ìºë¦­í„°ì˜ ì´ì•Œ
         bullet = new Bullet(screenY);
 
-        // invaderÀÇ ÃÑ¾Ë ¹è¿­
+        // invaderì˜ ì´ì•Œ ë°°ì—´
         for (int i = 0; i < invadersBullets.length; i++) {
             invadersBullets[i] = new Bullet(screenY);
         }
 
-        // À§Çù ¼öÁØ
+        // ìœ„í˜‘ ìˆ˜ì¤€
         menaceInterval = 1000;
 
-        // invaderÀÇ ¼ö¿Í ¹è¿­ ÇüÅÂ ¼³Á¤
+        // invaderì˜ ìˆ˜ì™€ ë°°ì—´ í˜•íƒœ ì„¤ì •
         numInvaders = 0;
         rowInvaders = 0;
         colInvaders = 0;
@@ -189,7 +189,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             }
         }
 
-        // gamelevel¿¡ µû¸¥ ½©ÅÍ ¸¸µé±â
+        // gamelevelì— ë”°ë¥¸ ì‰˜í„° ë§Œë“¤ê¸°
         numBricks = 0;
         if (gamelevel == 1) {
             for (int shelterNumber = 0; shelterNumber < 4; shelterNumber++) {
@@ -220,7 +220,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     public void run() {
         while (playing) {
 
-            // startFrameTime º¯¼ö¿¡ ÇöÀç ½Ã°£À» milliseconds ´ÜÀ§·Î ÀúÀå
+            // startFrameTime ë³€ìˆ˜ì— í˜„ì¬ ì‹œê°„ì„ milliseconds ë‹¨ìœ„ë¡œ ì €ì¥
             long startFrameTime = System.currentTimeMillis();
 
             // Update the frame
@@ -231,14 +231,14 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             // Draw the frame
             draw();
 
-            // ÇöÀç frameÀÇ fps¸¦ °è»ê
+            // í˜„ì¬ frameì˜ fpsë¥¼ ê³„ì‚°
             timeThisFrame = System.currentTimeMillis() - startFrameTime;
             if (timeThisFrame >= 1) {
                 fps = 1000 / timeThisFrame;
             }
 
-            // À§Çù ¼öÁØ(menaceInterval)¿¡ µû¸¥ »ç¿îµå Àç»ı
-            // menaceIntervalÀÌ ÀÛ¾Æ Áú¼ö·Ï ¼Ò¸®°¡ »¡¶óÁø´Ù
+            // ìœ„í˜‘ ìˆ˜ì¤€(menaceInterval)ì— ë”°ë¥¸ ì‚¬ìš´ë“œ ì¬ìƒ
+            // menaceIntervalì´ ì‘ì•„ ì§ˆìˆ˜ë¡ ì†Œë¦¬ê°€ ë¹¨ë¼ì§„ë‹¤
             if (!paused) {
                 if ((startFrameTime - lastMenaceTime) > menaceInterval) {
                     if (uhOrOh) {
@@ -248,9 +248,9 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                         soundPool.play(ohID, 1, 1, 0, 0, 1);
                     }
 
-                    // last menace time Àç¼³Á¤
+                    // last menace time ì¬ì„¤ì •
                     lastMenaceTime = System.currentTimeMillis();
-                    // uhOrOh °ª º¯°æ
+                    // uhOrOh ê°’ ë³€ê²½
                     uhOrOh = !uhOrOh;
                 }
             }
@@ -262,46 +262,46 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
 
     private void update() {
 
-        // invader°¡ È­¸é °¡ÀåÀÚ¸®(¾çÂÊ ³¡)¿¡ ´ê¾Ò´Â°¡?
+        // invaderê°€ í™”ë©´ ê°€ì¥ìë¦¬(ì–‘ìª½ ë)ì— ë‹¿ì•˜ëŠ”ê°€?
         boolean bumped = false;
 
-        // ÇÃ·¹ÀÌ¾î°¡ ÆĞ¹è ÇÏ¿´´Â°¡?
+        // í”Œë ˆì´ì–´ê°€ íŒ¨ë°° í•˜ì˜€ëŠ”ê°€?
         boolean lost = false;
 
-        // ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ ÀÌµ¿
+        // í”Œë ˆì´ì–´ ìºë¦­í„° ì´ë™
         playerShip.update(fps);
 
 
-        // visible »óÅÂÀÎ ¸ğµç invader °»½Å
+        // visible ìƒíƒœì¸ ëª¨ë“  invader ê°±ì‹ 
         for (int i = 0; i < numInvaders; i++) {
 
             if (invaders[i].getVisibility()) {
-                // invader ÀÌµ¿
+                // invader ì´ë™
                 invaders[i].update(fps);
 
-                // invader°¡ ÃÑ¾Ë À» ¹ß»çÇÒ°æ¿ì (takeAim ¸Ş¼Òµå)
+                // invaderê°€ ì´ì•Œì„ ë°œì‚¬í• ê²½ìš° (takeAim ë©”ì†Œë“œ)
                 if (invaders[i].takeAim(playerShip.getX(),
                         playerShip.getLength())) {
 
-                    // invaderÀÇ ÃÑ¾ËÀ» »ı¼º
+                    // invaderì˜ ì´ì•Œì„ ìƒì„±
                     if (invadersBullets[nextBullet].shoot(invaders[i].getX()
                                     + invaders[i].getLength() / 2,
                             invaders[i].getY(), bullet.DOWN)) {
 
-                        // ÃÑ¾Ë ¹ß»ç
-                        // ´ÙÀ½ ÃÑ¾Ë ÁØºñ
+                        // ì´ì•Œ ë°œì‚¬
+                        // ë‹¤ìŒ ì´ì•Œ ì¤€ë¹„
                         nextBullet++;
 
-                        // invadersBullets ¹è¿­ÀÇ ¸¶Áö¸· ±îÁö µµ´ŞÇÒ°æ¿ì ÀÎµ¦½º¸¦ 0À¸·Î Àç¼³Á¤
+                        // invadersBullets ë°°ì—´ì˜ ë§ˆì§€ë§‰ ê¹Œì§€ ë„ë‹¬í• ê²½ìš° ì¸ë±ìŠ¤ë¥¼ 0ìœ¼ë¡œ ì¬ì„¤ì •
                         if (nextBullet == maxInvaderBullets) {
-                            // ¸¸¾à ÀÌ¶§ ÃÑ¾Ë 0ÀÌ È°¼ºÈ­ µÇ¾î ÀÖÀ»°æ¿ì, shoot ¸Ş¼Òµå´Â false¸¦ ¹İÈ¯ÇÏ±â ¶§¹®¿¡
-                            // ÃÑ¾Ë 0ÀÌ inactive µÉ¶§±îÁö ´Ù¸¥ ÃÑ¾ËÀÌ ¹ß»çµÇÁö ¾Ê´Â´Ù
+                            // ë§Œì•½ ì´ë•Œ ì´ì•Œ 0ì´ í™œì„±í™” ë˜ì–´ ìˆì„ê²½ìš°, shoot ë©”ì†Œë“œëŠ” falseë¥¼ ë°˜í™˜í•˜ê¸° ë•Œë¬¸ì—
+                            // ì´ì•Œ 0ì´ inactive ë ë•Œê¹Œì§€ ë‹¤ë¥¸ ì´ì•Œì´ ë°œì‚¬ë˜ì§€ ì•ŠëŠ”ë‹¤
                             nextBullet = 0;
                         }
                     }
                 }
 
-                // invader°¡ È­¸é ³¡¿¡ ´ê¾ÒÀ»°æ¿ì bumped = true
+                // invaderê°€ í™”ë©´ ëì— ë‹¿ì•˜ì„ê²½ìš° bumped = true
                 if (invaders[i].getX() > screenX - invaders[i].getLength()
                         || invaders[i].getX() < 0) {
 
@@ -312,7 +312,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
 
         }
 
-        // È°¼ºÈ­ µÈ ¸ğµç invaderÀÇ ÃÑ¾ËÀ» ¾÷µ¥ÀÌÆ®
+        // í™œì„±í™” ëœ ëª¨ë“  invaderì˜ ì´ì•Œì„ ì—…ë°ì´íŠ¸
         for (int i = 0; i < invadersBullets.length; i++) {
             if (invadersBullets[i].getStatus()) {
                 invadersBullets[i].update(fps);
@@ -320,20 +320,20 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
         }
 
 
-        // invader È­¸é °¡ÀåÀÚ¸®(¾çÂÊ ³¡)¿¡ ´ê¾ÒÀ» °æ¿ì
+        // invader í™”ë©´ ê°€ì¥ìë¦¬(ì–‘ìª½ ë)ì— ë‹¿ì•˜ì„ ê²½ìš°
         if (bumped) {
 
-            // ¸ğµç invader¸¦ ¾Æ·¡·Î ÀÌµ¿½ÃÅ°°í, ¹æÇâÀ» ¹Ù²Û´Ù
+            // ëª¨ë“  invaderë¥¼ ì•„ë˜ë¡œ ì´ë™ì‹œí‚¤ê³ , ë°©í–¥ì„ ë°”ê¾¼ë‹¤
             for (int i = 0; i < numInvaders; i++) {
                 invaders[i].dropDownAndReverse();
-                // invader°¡ Âø·ú ÇÏ¿´À»°æ¿ì ÆĞ¹è
+                // invaderê°€ ì°©ë¥™ í•˜ì˜€ì„ê²½ìš° íŒ¨ë°°
                 if (invaders[i].getY() > screenY - screenY / 10) {
                     lost = true;
                 }
             }
 
-            // À§Çù ¼öÁØÀ» »ó½Â½ÃÅ²´Ù
-            // invader°¡ ³»·Á¿Ã¶§¸¶´Ù À§Çù¼Ò¸®°¡ Á¡Á¡ »¡¶óÁü
+            // ìœ„í˜‘ ìˆ˜ì¤€ì„ ìƒìŠ¹ì‹œí‚¨ë‹¤
+            // invaderê°€ ë‚´ë ¤ì˜¬ë•Œë§ˆë‹¤ ìœ„í˜‘ì†Œë¦¬ê°€ ì ì  ë¹¨ë¼ì§
             menaceInterval = menaceInterval - 80;
         }
 
@@ -342,29 +342,29 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             prepareLevel();
         }
 
-        // ÇÃ·¹ÀÌ¾îÀÇ ÃÑ¾Ë ¾÷µ¥ÀÌÆ®
+        // í”Œë ˆì´ì–´ì˜ ì´ì•Œ ì—…ë°ì´íŠ¸
         if (bullet.getStatus()) {
             bullet.update(fps);
         }
 
-        // ÇÃ·¹ÀÌ¾îÀÇ ÃÑ¾ËÀÌ È­¸é »ó´Ü¿¡ ºÎ‹HÇûÀ»°æ¿ì ÃÑ¾Ë ºñÈ°¼ºÈ­
+        // í”Œë ˆì´ì–´ì˜ ì´ì•Œì´ í™”ë©´ ìƒë‹¨ì— ë¶€ë”ªí˜”ì„ê²½ìš° ì´ì•Œ ë¹„í™œì„±í™”
         if (bullet.getImpactPointY() < 0) {
             bullet.setInactive();
         }
 
-        // invaderÀÇ ÃÑ¾ËÀÌ È­¸é ÇÏ´Ü¿¡ ºÎ‹HÇûÀ»°æ¿ì ÃÑ¾Ë ºñÈ°¼ºÈ­
+        // invaderì˜ ì´ì•Œì´ í™”ë©´ í•˜ë‹¨ì— ë¶€ë”ªí˜”ì„ê²½ìš° ì´ì•Œ ë¹„í™œì„±í™”
         for (int i = 0; i < invadersBullets.length; i++) {
             if (invadersBullets[i].getImpactPointY() > screenY) {
                 invadersBullets[i].setInactive();
             }
         }
 
-        // ÇÃ·¹ÀÌ¾îÀÇ ÃÑ¾ËÀÌ invader¿¡ ¸Â¾ÒÀ»°æ¿ì
+        // í”Œë ˆì´ì–´ì˜ ì´ì•Œì´ invaderì— ë§ì•˜ì„ê²½ìš°
         if (bullet.getStatus()) {
             for (int i = 0; i < numInvaders; i++) {
                 if (invaders[i].getVisibility()) {
                     if (RectF.intersects(bullet.getRect(), invaders[i].getRect())) {
-                        // gamelevelÀÌ 4ÀÏ°æ¿ì
+                        // gamelevelì´ 4ì¼ê²½ìš°
                         if (gamelevel == 4) {
                             bullet.setInactive();
                             invaders[i].health--;
@@ -379,14 +379,14 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                             soundPool.play(invaderExplodeID, 1, 1, 0, 0, 1);
                             score = score + 10;
                         }
-                        // ½Â¸® ÇÏ¿´À»°æ¿ì
+                        // ìŠ¹ë¦¬ í•˜ì˜€ì„ê²½ìš°
                         if (score == numInvaders * 10) {
                             paused = true;
                             score = 0;
                             lives = 1;
                             maxInvaderBullets = 10 + 10 * gamelevel;
                             gamelevel++;
-                            //gamelevelÀº 4±îÁö ±¸ÇöµÇ¾îÀÖÀ½
+                            //gamelevelì€ 4ê¹Œì§€ êµ¬í˜„ë˜ì–´ìˆìŒ
                             if (gamelevel == 5) gamelevel = 1;
                             prepareLevel();
                         }
@@ -396,13 +396,13 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
         }
 
 
-        // invaderÀÇ ÃÑ¾ËÀÌ ½©ÅÍ¿¡ ºÎµúÈ÷´Â°æ¿ì
+        // invaderì˜ ì´ì•Œì´ ì‰˜í„°ì— ë¶€ë”ªíˆëŠ”ê²½ìš°
         for (int i = 0; i < invadersBullets.length; i++) {
             if (invadersBullets[i].getStatus()) {
                 for (int j = 0; j < numBricks; j++) {
                     if (bricks[j].getVisibility()) {
                         if (RectF.intersects(invadersBullets[i].getRect(), bricks[j].getRect())) {
-                            // Ãæµ¹ ¹ß»ı
+                            // ì¶©ëŒ ë°œìƒ
                             invadersBullets[i].setInactive();
                             bricks[j].setInvisible();
                             soundPool.play(damageShelterID, 1, 1, 0, 0, 1);
@@ -414,12 +414,12 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
         }
 
 
-        // ÇÃ·¹ÀÌ¾îÀÇ ÃÑ¾ËÀÌ ½©ÅÍ¿¡ ºÎµúÈ÷´Â°æ¿ì
+        // í”Œë ˆì´ì–´ì˜ ì´ì•Œì´ ì‰˜í„°ì— ë¶€ë”ªíˆëŠ”ê²½ìš°
         if (bullet.getStatus()) {
             for (int i = 0; i < numBricks; i++) {
                 if (bricks[i].getVisibility()) {
                     if (RectF.intersects(bullet.getRect(), bricks[i].getRect())) {
-                        // Ãæµ¹ ¹ß»ı
+                        // ì¶©ëŒ ë°œìƒ
                         bullet.setInactive();
                         bricks[i].setInvisible();
                         soundPool.play(damageShelterID, 1, 1, 0, 0, 1);
@@ -429,7 +429,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
         }
 
 
-        /// invaderÀÇ ÃÑ¾ËÀÌ ÇÃ·¹ÀÌ¾î¿¡ ¸Â¾ÒÀ»°æ¿ì
+        /// invaderì˜ ì´ì•Œì´ í”Œë ˆì´ì–´ì— ë§ì•˜ì„ê²½ìš°
         for (int i = 0; i < invadersBullets.length; i++) {
             if (invadersBullets[i].getStatus()) {
                 if (RectF.intersects(playerShip.getRect(), invadersBullets[i].getRect())) {
@@ -437,7 +437,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                     lives--;
                     soundPool.play(playerExplodeID, 1, 1, 0, 0, 1);
 
-                    // °ÔÀÓ ¿À¹ö
+                    // ê²Œì„ ì˜¤ë²„
                     if (lives == 0) {
                         paused = true;
                         score = 0;
@@ -453,22 +453,22 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
     }
 
     private void draw() {
-        // ±×¸®±â surface°¡ À¯È¿ÇÑÁö È®ÀÎ ÇÏÁö ¾ÊÀ¸¸é Ãæµ¹ÇÔ
+        // ê·¸ë¦¬ê¸° surfaceê°€ ìœ íš¨í•œì§€ í™•ì¸ í•˜ì§€ ì•Šìœ¼ë©´ ì¶©ëŒí•¨
         if (ourHolder.getSurface().isValid()) {
-            // ±×·¡ÇÈÀ» ±×¸®±â Àü¿¡ Äµ¹ö½º¸¦ Àá±Ù´Ù
+            // ê·¸ë˜í”½ì„ ê·¸ë¦¬ê¸° ì „ì— ìº”ë²„ìŠ¤ë¥¼ ì ê·¼ë‹¤
             canvas = ourHolder.lockCanvas();
 
-            // ¹è°æ»ö
+            // ë°°ê²½ìƒ‰
             canvas.drawColor(Color.argb(255, 26, 128, 182));
 
-            // ºê·¯½¬ »ö»ó
+            // ë¸ŒëŸ¬ì‰¬ ìƒ‰ìƒ
             paint.setColor(Color.argb(255, 255, 255, 255));
 
-            // ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ ±×¸®±â
+            // í”Œë ˆì´ì–´ ìºë¦­í„° ê·¸ë¦¬ê¸°
             canvas.drawBitmap(playerShip.getBitmap(), playerShip.getX(), screenY - 150, paint);
 
 
-            // invaders ±×¸®±â
+            // invaders ê·¸ë¦¬ê¸°
             for (int i = 0; i < numInvaders; i++) {
                 if (invaders[i].getVisibility()) {
                     if (uhOrOh) {
@@ -480,7 +480,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             }
 
 
-            // visibleÇÑ ½©ÅÍ bricks ±×¸®±â
+            // visibleí•œ ì‰˜í„° bricks ê·¸ë¦¬ê¸°
             for (int i = 0; i < numBricks; i++) {
                 if (bricks[i].getVisibility()) {
                     canvas.drawRect(bricks[i].getRect(), paint);
@@ -488,13 +488,13 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             }
 
 
-            // È°¼ºÈ­µÈ ÇÃ·¹ÀÌ¾îÀÇ ÃÑ¾Ë ±×¸®±â
+            // í™œì„±í™”ëœ í”Œë ˆì´ì–´ì˜ ì´ì•Œ ê·¸ë¦¬ê¸°
             if (bullet.getStatus()) {
                 canvas.drawRect(bullet.getRect(), paint);
             }
 
 
-            // È°¼ºÈ­µÈ ¸ğµç invaderÀÇ ÃÑ¾Ë ±×¸®±â
+            // í™œì„±í™”ëœ ëª¨ë“  invaderì˜ ì´ì•Œ ê·¸ë¦¬ê¸°
             for (int i = 0; i < invadersBullets.length; i++) {
                 if (invadersBullets[i].getStatus()) {
                     canvas.drawRect(invadersBullets[i].getRect(), paint);
@@ -502,45 +502,45 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
             }
 
 
-            // ÇöÀç gamelevel°ú score, lives Ç¥±â
+            // í˜„ì¬ gamelevelê³¼ score, lives í‘œê¸°
             paint.setColor(Color.argb(255, 249, 129, 0));
             paint.setTextSize(40);
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-            canvas.drawText("[" + gamelevel + " ´Ü°è]" + "   Score: " + score + "   Lives: " + lives, 10, 50, paint);
+            canvas.drawText("[" + gamelevel + " ë‹¨ê³„]" + "   Score: " + score + "   Lives: " + lives, 10, 50, paint);
            
-            // gamelevel¿¡ µû¸¥ ¹®±¸ Ç¥±â
+            // gamelevelì— ë”°ë¥¸ ë¬¸êµ¬ í‘œê¸°
             paint.setColor(Color.argb(255, 255, 255, 255));
             paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
             
             if (gamelevel == 1) {
-                canvas.drawText("   ¹«´ç¹ú·¹¸¦ ¸ğµÎ ¹Ú¸êÇÏ¼¼¿ä.", 10, 150, paint);
+                canvas.drawText("   ë¬´ë‹¹ë²Œë ˆë¥¼ ëª¨ë‘ ë°•ë©¸í•˜ì„¸ìš”.", 10, 150, paint);
                 paint.setColor(Color.argb(255, 255, 0, 0));
-                canvas.drawText("   ½ºÅ©¸° ÇÏ´ÜÀ» ÅÍÄ¡ÇÏ¿© ÀÌµ¿, Á¤¸éÀ» ÅÍÄ¡ÇÏ¿© °ø°İÇÒ ¼ö ÀÖ½À´Ï´Ù.", 10, 200, paint);
+                canvas.drawText("   ìŠ¤í¬ë¦° í•˜ë‹¨ì„ í„°ì¹˜í•˜ì—¬ ì´ë™, ì •ë©´ì„ í„°ì¹˜í•˜ì—¬ ê³µê²©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.", 10, 200, paint);
             }
             if (gamelevel == 2) {
-                canvas.drawText("   ¿µ¾ç ¸¸Á¡ »ı¼±! »ı¼±µéÀÌ ¶¥¿¡ ¶³¾îÁö±â Àü¿¡ ¸ğµÎ Àâ¾Æ¾ß ÇØ¿ä.", 10, 150, paint);
+                canvas.drawText("   ì˜ì–‘ ë§Œì  ìƒì„ ! ìƒì„ ë“¤ì´ ë•…ì— ë–¨ì–´ì§€ê¸° ì „ì— ëª¨ë‘ ì¡ì•„ì•¼ í•´ìš”.", 10, 150, paint);
                 paint.setColor(Color.argb(255, 255, 0, 0));
-                canvas.drawText("   »ı¼±Àº °è¼ÓÇØ¼­ »¡¶óÁı´Ï´Ù.", 10, 200, paint);
+                canvas.drawText("   ìƒì„ ì€ ê³„ì†í•´ì„œ ë¹¨ë¼ì§‘ë‹ˆë‹¤.", 10, 200, paint);
             }
             if (gamelevel == 3) {
-                canvas.drawText("   °í¾çÀÌ°¡ ÁÁ¾ÆÇÏ´Â º´¾Æ¸®¿¡¿ä :)", 10, 150, paint);
+                canvas.drawText("   ê³ ì–‘ì´ê°€ ì¢‹ì•„í•˜ëŠ” ë³‘ì•„ë¦¬ì—ìš” :)", 10, 150, paint);
             }
             if (gamelevel == 4) {
-                canvas.drawText("   ´ßÀÌ È­°¡ ³µ¾î¿ä. È­³­ ´ßÀ» ¾²·¯Æ®·Á¾ß ÇØ¿ä.", 10, 150, paint);
+                canvas.drawText("   ë‹­ì´ í™”ê°€ ë‚¬ì–´ìš”. í™”ë‚œ ë‹­ì„ ì“°ëŸ¬íŠ¸ë ¤ì•¼ í•´ìš”.", 10, 150, paint);
                 paint.setColor(Color.argb(255, 255, 0, 0));
-                canvas.drawText("   ´ßÀº ÇÑ¹øÀÇ °ø°İÀ¸·Î Á×Áö ¾Ê½À´Ï´Ù.", 10, 200, paint);
+                canvas.drawText("   ë‹­ì€ í•œë²ˆì˜ ê³µê²©ìœ¼ë¡œ ì£½ì§€ ì•ŠìŠµë‹ˆë‹¤.", 10, 200, paint);
                 paint.setTextSize(60);
                 for (int i = 0; i < invaders[0].health; i++)
-                    canvas.drawText("¢¾", screenX - 365 + i * 65, 80, paint);
+                    canvas.drawText("â™¥", screenX - 365 + i * 65, 80, paint);
             }
 
-            // Holder Àá±İÀ» ÇØÁ¦ÇÏ°í È­¸é¿¡ Ãâ·Â
+            // Holder ì ê¸ˆì„ í•´ì œí•˜ê³  í™”ë©´ì— ì¶œë ¥
             ourHolder.unlockCanvasAndPost(canvas);
         }
     }
 
-    // main Activity°¡ pausedµÈ °æ¿ì
-    // ¾²·¹µå¸¦ Á¾·á
+    // main Activityê°€ pausedëœ ê²½ìš°
+    // ì“°ë ˆë“œë¥¼ ì¢…ë£Œ
     public void pause() {
         playing = false;
         try {
@@ -551,22 +551,22 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
 
     }
 
-    // main Activity°¡ startedµÈ °æ¿ì
-    // ¾²·¹µå¸¦ ½ÃÀÛ
+    // main Activityê°€ startedëœ ê²½ìš°
+    // ì“°ë ˆë“œë¥¼ ì‹œì‘
     public void resume() {
         playing = true;
         gameThread = new Thread(this);
         gameThread.start();
     }
 
-    // SurfaceView Å¬·¡½º´Â onTouchListener¸¦ implements ÇÏ±â¶§¹®¿¡
-    // onTouchListener ¸Ş¼Òµå¸¦ OverrideÇÏ¿© È­¸é ÅÍÄ¡¸¦ °¨ÁöÇÏ´Â ±â´ÉÀ» ±¸ÇöÇÏ¿´´Ù.
+    // SurfaceView í´ë˜ìŠ¤ëŠ” onTouchListenerë¥¼ implements í•˜ê¸°ë•Œë¬¸ì—
+    // onTouchListener ë©”ì†Œë“œë¥¼ Overrideí•˜ì—¬ í™”ë©´ í„°ì¹˜ë¥¼ ê°ì§€í•˜ëŠ” ê¸°ëŠ¥ì„ êµ¬í˜„í•˜ì˜€ë‹¤.
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
 
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
 
-            // È­¸éÀ» ÅÍÄ¡ÇßÀ»¶§
+            // í™”ë©´ì„ í„°ì¹˜í–ˆì„ë•Œ
             case MotionEvent.ACTION_DOWN:
 
                 paused = false;
@@ -581,7 +581,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                 }
 
                 if (motionEvent.getY() < screenY - screenY / 3) {
-                    // ÇÃ·¹ÀÌ¾î ÃÑ¾Ë ¹ß»ç
+                    // í”Œë ˆì´ì–´ ì´ì•Œ ë°œì‚¬
                     if (bullet.shoot(playerShip.getX() +
                             playerShip.getLength() / 2, screenY - 150, bullet.UP)) {
                         soundPool.play(shootID, 1, 1, 0, 0, 1);
@@ -589,7 +589,7 @@ public class SpaceInvadersView extends SurfaceView implements Runnable {
                 }
                 break;
 
-            // ¼Õ°¡¶ôÀ» È­¸é¿¡¼­ ¶®À»¶§
+            // ì†ê°€ë½ì„ í™”ë©´ì—ì„œ ë• ì„ë•Œ
             case MotionEvent.ACTION_UP:
 
                 if (motionEvent.getY() > screenY - screenY / 10) {
